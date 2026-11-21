@@ -1,0 +1,453 @@
+:root {
+  --bg-cream: #FFF9EE;
+  --surface-card: #FFFFFF;
+  --surface-plate: #FFF3DC;
+  --border-warm: #E5D5BA;
+  --shadow-lip: #D6C19F;
+  --text-dark: #2B2118;
+  --text-muted: #5E4E42;
+  --green-correct: #2E7D32;
+  --green-bg: #E8F5E9;
+  --green-lip: #1B5E20;
+  --amber-accent: #E65100;
+  --amber-hover: #BF360C;
+  --blue-focus: #1565C0;
+  --red-wrong: #C62828;
+  --red-bg: #FFEBEE;
+  --radius-card: 24px;
+  --radius-btn: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: 'Fredoka', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background-color: var(--bg-cream);
+  color: var(--text-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:focus-visible {
+  outline: 4px solid var(--blue-focus);
+  outline-offset: 3px;
+}
+
+/* Top Bar */
+.top-bar {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-card);
+  border: 2.5px solid var(--border-warm);
+  border-radius: var(--radius-btn);
+  padding: 8px 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.score-value {
+  color: var(--amber-accent);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn,
+.action-btn,
+.next-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: var(--radius-btn);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform 0.14s ease, background-color 0.15s ease, box-shadow 0.14s ease;
+}
+
+.icon-btn {
+  background: var(--surface-card);
+  color: var(--text-dark);
+  border: 2.5px solid var(--border-warm);
+  box-shadow: 0 4px 0 var(--shadow-lip);
+}
+
+.icon-btn[aria-pressed="false"] {
+  color: var(--text-muted);
+  background: #F3ECE0;
+}
+
+.icon-btn[aria-pressed="false"] .sound-wave {
+  opacity: 0.2;
+}
+
+.action-btn {
+  background: var(--amber-accent);
+  color: #FFFFFF;
+  border: 2.5px solid #B53D00;
+  box-shadow: 0 4px 0 #9E3500;
+}
+
+.icon-btn:hover,
+.action-btn:hover,
+.next-btn:hover {
+  transform: translateY(-1px);
+}
+
+.icon-btn:active,
+.action-btn:active,
+.next-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--shadow-lip);
+}
+
+/* Main Stage */
+.game-stage {
+  width: 100%;
+  max-width: 820px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  flex: 1;
+}
+
+.prompt-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.question-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+/* Seamless Animal Card (Gambar + Nama menyatu) */
+.animal-card {
+  margin: 0;
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface-card);
+  border: 3px solid var(--border-warm);
+  border-radius: var(--radius-card);
+  box-shadow: 0 6px 0 var(--shadow-lip);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal-image-wrap {
+  width: 100%;
+  background: #FFFFFF;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.animal-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.animal-nameplate {
+  background: var(--surface-plate);
+  border-top: 2.5px solid var(--border-warm);
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  letter-spacing: 0.01em;
+}
+
+/* Options Grid */
+.options-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.options-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* Seamless Option Card (Gambar + Nama menyatu dalam satu tombol taktil) */
+.option-card {
+  position: relative;
+  padding: 0;
+  background: var(--surface-card);
+  border: 3px solid var(--border-warm);
+  border-radius: var(--radius-card);
+  box-shadow: 0 7px 0 var(--shadow-lip);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.2s ease, background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option-card:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: var(--amber-accent);
+  box-shadow: 0 10px 0 var(--shadow-lip);
+}
+
+.option-card:active:not(:disabled) {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 var(--shadow-lip);
+}
+
+.option-image-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #FFFFFF;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+}
+
+.option-label {
+  background: var(--surface-plate);
+  border-top: 2.5px solid var(--border-warm);
+  padding: 12px 10px;
+  font-size: clamp(1.15rem, 2.5vw, 1.4rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Correct State */
+.option-card.is-correct {
+  border-color: var(--green-correct);
+  background: var(--green-bg);
+  box-shadow: 0 7px 0 var(--green-lip);
+  animation: popCelebrate 0.45s cubic-bezier(0.22, 1.25, 0.36, 1);
+}
+
+.option-card.is-correct .option-image-wrap {
+  background: var(--green-bg);
+}
+
+.option-card.is-correct .option-label {
+  background: var(--green-correct);
+  border-top-color: var(--green-correct);
+  color: #FFFFFF;
+}
+
+/* Green Checkmark Badge */
+.check-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-correct);
+  color: #FFFFFF;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 3px 8px rgba(27, 94, 32, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: badgePop 0.35s cubic-bezier(0.22, 1.35, 0.36, 1);
+}
+
+/* Wrong State */
+.option-card.is-wrong {
+  border-color: var(--red-wrong);
+  background: var(--red-bg);
+  animation: gentleShake 0.38s ease;
+}
+
+.option-card.is-wrong .option-image-wrap {
+  background: var(--red-bg);
+}
+
+.option-card.is-wrong .option-label {
+  background: #FFCDD2;
+  border-top-color: var(--red-wrong);
+  color: #7F0000;
+}
+
+.option-card.is-dimmed {
+  opacity: 0.6;
+}
+
+/* Feedback Banner */
+.feedback-banner {
+  width: 100%;
+  max-width: 600px;
+  min-height: 64px;
+  background: var(--surface-card);
+  border: 2.5px solid var(--border-warm);
+  border-radius: var(--radius-btn);
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.feedback-banner.is-success {
+  background: var(--green-bg);
+  border-color: var(--green-correct);
+}
+
+.feedback-banner.is-try-again {
+  background: var(--red-bg);
+  border-color: var(--red-wrong);
+}
+
+.feedback-text {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.feedback-banner.is-success .feedback-text {
+  color: #1B5E20;
+}
+
+.feedback-banner.is-try-again .feedback-text {
+  color: #7F0000;
+}
+
+.next-btn {
+  background: var(--green-correct);
+  color: #FFFFFF;
+  border: 2.5px solid var(--green-lip);
+  box-shadow: 0 4px 0 var(--green-lip);
+}
+
+.next-btn[hidden] {
+  display: none;
+}
+
+@keyframes popCelebrate {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes badgePop {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes gentleShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  55% { transform: translateX(6px); }
+  80% { transform: translateX(-3px); }
+}
+
+/* Responsive Mobile Layout */
+@media (max-width: 640px) {
+  body {
+    padding: 12px;
+  }
+
+  .options-grid {
+    gap: 10px;
+  }
+
+  .option-image-wrap {
+    padding: 10px;
+  }
+
+  .option-label {
+    padding: 10px 6px;
+    font-size: 1.05rem;
+  }
+
+  .check-badge {
+    width: 36px;
+    height: 36px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .check-badge svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option-card,
+  .icon-btn,
+  .action-btn,
+  .next-btn,
+  .check-badge {
+    transition: none;
+    animation: none;
+  }
+}

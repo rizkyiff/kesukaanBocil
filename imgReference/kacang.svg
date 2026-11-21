@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#FFFFFF"/>
+  <!-- Acorn / Kacang Ek -->
+  <path d="M68 106 L172 106 Q168 188 120 206 Q72 188 68 106 Z" fill="#D97706" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Cap -->
+  <path d="M54 108 Q54 62 120 62 Q186 62 186 108 Z" fill="#78350F" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Stem -->
+  <path d="M114 62 L114 38 Q114 32 126 34 L126 62 Z" fill="#78350F" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Cap texture -->
+  <path d="M78 86 L92 104 M110 78 L124 104 M142 78 L156 104 M164 86 L148 104 M134 78 L118 104 M102 78 L86 104" stroke="#451A03" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Highlight -->
+  <path d="M84 128 Q86 160 102 178" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="238" rx="190" ry="24" fill="#9CCC65"/>
+  <!-- Fluffy Tail -->
+  <path d="M276 206 Q362 196 360 112 Q358 64 316 74 Q296 80 302 114 Q306 150 272 184 Z" fill="#C2410C" stroke="#2B1B12" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Body -->
+  <ellipse cx="230" cy="186" rx="52" ry="46" fill="#EA580C" stroke="#2B1B12" stroke-width="4"/>
+  <ellipse cx="226" cy="192" rx="30" ry="32" fill="#FFEDD5"/>
+  <!-- Ears -->
+  <polygon points="188,76 196,42 216,66" fill="#EA580C" stroke="#2B1B12" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="268,76 260,42 240,66" fill="#EA580C" stroke="#2B1B12" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Head -->
+  <circle cx="228" cy="104" r="48" fill="#EA580C" stroke="#2B1B12" stroke-width="4"/>
+  <ellipse cx="228" cy="122" rx="34" ry="20" fill="#FFEDD5"/>
+  <!-- Eyes -->
+  <circle cx="210" cy="96" r="7.5" fill="#2B1B12"/>
+  <circle cx="246" cy="96" r="7.5" fill="#2B1B12"/>
+  <circle cx="213" cy="93" r="2.8" fill="#FFFFFF"/>
+  <circle cx="249" cy="93" r="2.8" fill="#FFFFFF"/>
+  <!-- Nose & Smile -->
+  <ellipse cx="228" cy="112" rx="7" ry="5" fill="#2B1B12"/>
+  <path d="M216 124 Q228 134 240 124" fill="none" stroke="#2B1B12" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Paws -->
+  <ellipse cx="198" cy="224" rx="16" ry="10" fill="#FFEDD5" stroke="#2B1B12" stroke-width="3.5"/>
+  <ellipse cx="258" cy="224" rx="16" ry="10" fill="#FFEDD5" stroke="#2B1B12" stroke-width="3.5"/>
+</svg>

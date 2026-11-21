@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#FFFFFF"/>
+  <!-- Jar -->
+  <ellipse cx="120" cy="146" rx="68" ry="62" fill="#D97706" stroke="#1E1814" stroke-width="5"/>
+  <!-- Honey Drip -->
+  <path d="M68 82 Q120 72 172 82 L172 110 Q156 126 148 108 Q134 142 120 118 Q104 138 92 108 Q78 124 68 106 Z" fill="#FACC15" stroke="#1E1814" stroke-width="4.5" stroke-linejoin="round"/>
+  <!-- Rim -->
+  <rect x="64" y="64" width="112" height="22" rx="11" fill="#FDE047" stroke="#1E1814" stroke-width="5"/>
+  <!-- Label -->
+  <rect x="82" y="138" width="76" height="42" rx="10" fill="#FEF3C7" stroke="#1E1814" stroke-width="4"/>
+  <!-- Hexagon icon on jar -->
+  <polygon points="120,146 132,153 132,165 120,172 108,165 108,153" fill="#F59E0B" stroke="#1E1814" stroke-width="3"/>
+  <!-- Highlight -->
+  <path d="M74 142 Q76 170 94 186" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+</svg>

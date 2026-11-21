@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="238" rx="190" ry="24" fill="#9CCC65"/>
+  <!-- Tail -->
+  <path d="M298 205 Q358 190 348 135" fill="none" stroke="#F59E0B" stroke-width="16" stroke-linecap="round"/>
+  <path d="M298 205 Q358 190 348 135" fill="none" stroke="#2B1B12" stroke-width="4" stroke-linecap="round"/>
+  <!-- Body -->
+  <ellipse cx="240" cy="186" rx="60" ry="48" fill="#F59E0B" stroke="#2B1B12" stroke-width="4"/>
+  <ellipse cx="240" cy="194" rx="34" ry="34" fill="#FEF3C7"/>
+  <!-- Ears -->
+  <polygon points="182,86 192,38 224,68" fill="#F59E0B" stroke="#2B1B12" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="190,78 195,50 215,68" fill="#FCA5A5"/>
+  <polygon points="298,86 288,38 256,68" fill="#F59E0B" stroke="#2B1B12" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="290,78 285,50 265,68" fill="#FCA5A5"/>
+  <!-- Head -->
+  <ellipse cx="240" cy="108" rx="60" ry="50" fill="#F59E0B" stroke="#2B1B12" stroke-width="4"/>
+  <!-- Stripes -->
+  <path d="M240 58 L240 76 M224 62 L228 76 M256 62 L252 76" stroke="#B45309" stroke-width="4" stroke-linecap="round"/>
+  <!-- Eyes -->
+  <circle cx="216" cy="102" r="8.5" fill="#2B1B12"/>
+  <circle cx="264" cy="102" r="8.5" fill="#2B1B12"/>
+  <circle cx="219" cy="99" r="3" fill="#FFFFFF"/>
+  <circle cx="267" cy="99" r="3" fill="#FFFFFF"/>
+  <!-- Nose & Mouth -->
+  <polygon points="234,114 246,114 240,122" fill="#F43F5E"/>
+  <path d="M240 122 Q232 132 224 126 M240 122 Q248 132 256 126" fill="none" stroke="#2B1B12" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Whiskers -->
+  <path d="M168 108 L198 112 M166 122 L198 120 M312 108 L282 112 M314 122 L282 120" stroke="#2B1B12" stroke-width="3" stroke-linecap="round"/>
+  <!-- Paws -->
+  <ellipse cx="206" cy="226" rx="18" ry="11" fill="#FEF3C7" stroke="#2B1B12" stroke-width="3.5"/>
+  <ellipse cx="274" cy="226" rx="18" ry="11" fill="#FEF3C7" stroke="#2B1B12" stroke-width="3.5"/>
+</svg>

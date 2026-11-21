@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <rect width="240" height="240" fill="#FFFFFF"/>
+  <!-- Grass Blades -->
+  <path d="M72 194 Q40 120 52 72 Q76 112 88 186 Z" fill="#22C55E" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M168 194 Q200 120 188 72 Q164 112 152 186 Z" fill="#22C55E" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M98 194 Q88 104 118 42 Q132 104 128 194 Z" fill="#4ADE80" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M126 194 Q138 118 160 66 Q162 126 146 194 Z" fill="#16A34A" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Base Mound -->
+  <path d="M44 196 Q120 176 196 196 Q120 212 44 196 Z" fill="#15803D" stroke="#1E1814" stroke-width="5" stroke-linejoin="round"/>
+</svg>
