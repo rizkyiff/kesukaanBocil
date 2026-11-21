@@ -432,10 +432,9 @@ function createMatchCard(item, side) {
   return btn;
 }
 
-/** Merender ronde baru untuk mode Tarik Benang (3 hewan + 3 makanan teracak). */
+/** Merender ronde baru untuk mode Tarik Benang (3 hewan + 3 makanan teracak, murni drag & drop). */
 function startMatchRound() {
   matchState = {
-    selectedAnimalId: null,
     draggingAnimalId: null,
     dragStartPt: null,
     connectedPairs: [],
@@ -460,66 +459,67 @@ function startMatchRound() {
     const card = createMatchCard(animal, 'left');
     card.addEventListener('pointerdown', (e) => {
       if (card.disabled || roundSolved) return;
+      e.preventDefault();
       matchState.draggingAnimalId = animal.id;
       matchState.dragStartPt = getAnchorPoint(card);
       matchState.pointerMoved = false;
-      card.setPointerCapture(e.pointerId);
-    });
-    card.addEventListener('pointermove', (e) => {
-      if (matchState.draggingAnimalId !== animal.id) return;
-      matchState.pointerMoved = true;
-      const boardRect = matchBoard.getBoundingClientRect();
-      renderMatchLines({
-        x: e.clientX - boardRect.left,
-        y: e.clientY - boardRect.top
-      });
-    });
-    card.addEventListener('pointerup', (e) => {
-      if (matchState.draggingAnimalId !== animal.id) return;
-      const moved = matchState.pointerMoved;
-      matchState.draggingAnimalId = null;
-      matchState.dragStartPt = null;
-      renderMatchLines();
-
-      if (moved) {
-        const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
-        const foodCard = dropTarget ? dropTarget.closest('.match-item.is-right') : null;
-        if (foodCard && foodCard.dataset.foodId) {
-          attemptMatchConnection(animal.id, foodCard.dataset.foodId);
-          return;
-        }
-      }
-
-      // Mode ketuk/keyboard: pilih hewan ini
-      matchState.selectedAnimalId = animal.id;
-      matchLeftCol.querySelectorAll('.match-item').forEach((el) => {
-        el.classList.toggle('is-selected', el === card);
-      });
-      feedbackBanner.className = 'feedback-banner';
-      feedbackText.textContent = `Sekarang ketuk makanan kesukaan ${animal.name}!`;
-    });
-    card.addEventListener('pointercancel', () => {
-      matchState.draggingAnimalId = null;
-      matchState.dragStartPt = null;
-      renderMatchLines();
+      card.classList.add('is-dragging');
     });
     matchLeftCol.appendChild(card);
   });
 
   mixedFoods.forEach((food) => {
     const card = createMatchCard(food, 'right');
-    card.addEventListener('click', () => {
-      if (card.disabled || roundSolved) return;
-      if (matchState.selectedAnimalId) {
-        attemptMatchConnection(matchState.selectedAnimalId, food.id);
-      } else {
-        feedbackBanner.className = 'feedback-banner';
-        feedbackText.textContent = 'Pilih atau tarik benang dari gambar hewan di sebelah kiri dulu ya!';
-      }
-    });
     matchRightCol.appendChild(card);
   });
 }
+
+function handleGlobalMatchMove(e) {
+  if (currentMode !== 'match' || !matchState.draggingAnimalId) return;
+  matchState.pointerMoved = true;
+
+  const boardRect = matchBoard.getBoundingClientRect();
+  renderMatchLines({
+    x: e.clientX - boardRect.left,
+    y: e.clientY - boardRect.top
+  });
+
+  matchRightCol.querySelectorAll('.match-item').forEach((el) => el.classList.remove('is-drop-hover'));
+  const hoverTarget = document.elementFromPoint(e.clientX, e.clientY);
+  const foodCard = hoverTarget ? hoverTarget.closest('.match-item.is-right') : null;
+  if (foodCard && !foodCard.disabled) {
+    foodCard.classList.add('is-drop-hover');
+  }
+}
+
+function handleGlobalMatchUp(e) {
+  if (currentMode !== 'match' || !matchState.draggingAnimalId) return;
+
+  const animalId = matchState.draggingAnimalId;
+  const moved = matchState.pointerMoved;
+
+  matchState.draggingAnimalId = null;
+  matchState.dragStartPt = null;
+  matchLeftCol.querySelectorAll('.match-item').forEach((el) => el.classList.remove('is-dragging'));
+  matchRightCol.querySelectorAll('.match-item').forEach((el) => el.classList.remove('is-drop-hover'));
+  renderMatchLines();
+
+  if (!moved) {
+    feedbackBanner.className = 'feedback-banner';
+    feedbackText.textContent = 'Tahan lalu tarik benang dari gambar hewan ke gambar makanannya ya!';
+    return;
+  }
+
+  const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
+  const foodCard = dropTarget ? dropTarget.closest('.match-item.is-right') : null;
+  if (foodCard && foodCard.dataset.foodId && !foodCard.disabled) {
+    attemptMatchConnection(animalId, foodCard.dataset.foodId);
+  }
+}
+
+window.addEventListener('pointermove', handleGlobalMatchMove);
+window.addEventListener('pointerup', handleGlobalMatchUp);
+window.addEventListener('pointercancel', handleGlobalMatchUp);
 
 /* ================= ORCHESTRATION ================= */
 

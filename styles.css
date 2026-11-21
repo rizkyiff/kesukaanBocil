@@ -480,9 +480,9 @@ button:focus-visible {
   position: relative;
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(48px, 140px) minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: clamp(56px, 14vw, 150px);
+  align-items: stretch;
   touch-action: none;
   user-select: none;
 }
@@ -490,7 +490,7 @@ button:focus-visible {
 .match-col {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   z-index: 2;
 }
 
@@ -509,15 +509,29 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 76px;
-  padding: 8px 14px;
+  min-height: 82px;
+  padding: 10px 16px;
   background: var(--surface-card);
   border: 3px solid var(--border-warm);
   border-radius: 18px;
   box-shadow: 0 5px 0 var(--shadow-lip);
   text-align: left;
+  cursor: grab;
+  touch-action: none;
   transition: transform 0.14s ease, border-color 0.18s ease, background-color 0.18s ease;
   -webkit-tap-highlight-color: transparent;
+}
+
+.match-item.is-dragging {
+  cursor: grabbing;
+  border-color: var(--amber-accent);
+  background: #FFF7ED;
+}
+
+.match-item.is-drop-hover {
+  border-color: var(--blue-focus);
+  background: #EFF6FF;
+  transform: scale(1.03);
 }
 
 .match-item:hover:not(:disabled) {
@@ -598,21 +612,21 @@ button:focus-visible {
 
 @media (max-width: 640px) {
   .match-board {
-    grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr);
-    gap: 4px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 44px;
   }
 
   .match-item {
     flex-direction: column;
     text-align: center;
-    padding: 8px 6px;
+    padding: 10px 8px;
     gap: 6px;
-    min-height: 92px;
+    min-height: 98px;
   }
 
   .match-thumb {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 }
 
