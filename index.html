@@ -26,6 +26,9 @@
       <button type="button" id="mode-buildings-btn" class="mode-btn" aria-pressed="false">
         Bangunan
       </button>
+      <button type="button" id="mode-match-btn" class="mode-btn" aria-pressed="false">
+        Tarik Benang
+      </button>
     </nav>
 
     <div class="top-actions">
@@ -62,18 +65,26 @@
       </figure>
     </section>
 
-    <section class="options-area" aria-label="Pilihan buah dan sayur">
-      <div id="options-grid" class="options-grid" role="group" aria-label="Pilih satu makanan kesukaan kelinci">
+    <section id="single-options-area" class="options-area" aria-label="Pilihan jawaban">
+      <div id="options-grid" class="options-grid" role="group" aria-label="Pilih satu jawaban">
         <!-- Opsi di-render dinamis oleh app.js -->
       </div>
+    </section>
 
-      <div id="feedback-banner" class="feedback-banner" role="status" aria-live="polite">
-        <p id="feedback-text" class="feedback-text">Ketuk gambar makanan yang disukai Kelinci!</p>
-        <button type="button" id="next-round-btn" class="next-btn" hidden>
-          Main Lagi
-        </button>
+    <section id="match-stage" class="match-stage" aria-label="Permainan tarik benang" hidden>
+      <div id="match-board" class="match-board">
+        <div id="match-left-col" class="match-col" role="group" aria-label="Daftar hewan"></div>
+        <svg id="match-lines-svg" class="match-lines-svg" aria-hidden="true"></svg>
+        <div id="match-right-col" class="match-col" role="group" aria-label="Daftar makanan"></div>
       </div>
     </section>
+
+    <div id="feedback-banner" class="feedback-banner" role="status" aria-live="polite">
+      <p id="feedback-text" class="feedback-text">Ketuk gambar makanan yang disukai Kelinci!</p>
+      <button type="button" id="next-round-btn" class="next-btn" hidden>
+        Main Lagi
+      </button>
+    </div>
   </main>
 
   <script src="app.js" defer></script>

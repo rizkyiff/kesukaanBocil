@@ -88,9 +88,16 @@ const TEXT_QUIZ_CONFIG = {
 const OPTION_COUNT = 3;
 
 const questionHeading = document.getElementById('question-heading');
+const animalCardEl = document.querySelector('.animal-card');
 const animalImg = document.getElementById('animal-img');
 const animalNameEl = document.getElementById('animal-name');
+const singleOptionsArea = document.getElementById('single-options-area');
 const optionsGrid = document.getElementById('options-grid');
+const matchStage = document.getElementById('match-stage');
+const matchBoard = document.getElementById('match-board');
+const matchLeftCol = document.getElementById('match-left-col');
+const matchRightCol = document.getElementById('match-right-col');
+const matchLinesSvg = document.getElementById('match-lines-svg');
 const feedbackBanner = document.getElementById('feedback-banner');
 const feedbackText = document.getElementById('feedback-text');
 const nextRoundBtn = document.getElementById('next-round-btn');
@@ -101,10 +108,11 @@ const scoreValueEl = document.getElementById('score-value');
 const modeButtons = {
   animals: document.getElementById('mode-animals-btn'),
   vehicles: document.getElementById('mode-vehicles-btn'),
-  buildings: document.getElementById('mode-buildings-btn')
+  buildings: document.getElementById('mode-buildings-btn'),
+  match: document.getElementById('mode-match-btn')
 };
 
-let currentMode = 'animals'; // 'animals' | 'vehicles' | 'buildings'
+let currentMode = 'animals'; // 'animals' | 'vehicles' | 'buildings' | 'match'
 let soundEnabled = true;
 let score = 0;
 let roundSolved = false;
@@ -114,6 +122,15 @@ let decks = { animals: [], vehicles: [], buildings: [] };
 let currentPrompt = ANIMALS[0];
 let currentTargetId = 'wortel';
 let audioCtx = null;
+
+// State untuk mode Tarik Benang ('match')
+let matchState = {
+  selectedAnimalId: null,
+  draggingAnimalId: null,
+  dragStartPt: null,
+  connectedPairs: [], // [{ animalId, foodId }]
+  pointerMoved: false
+};
 
 /** Mengambil atau membuat AudioContext saat ada interaksi pengguna. */
 function getAudioContext() {
@@ -238,7 +255,7 @@ function createCheckBadge() {
   return badge;
 }
 
-/** Menangani klik pada salah satu kartu opsi. */
+/** Menangani klik pada salah satu kartu opsi (Mode 1-3). */
 function handleOptionClick(item, cardEl) {
   if (roundSolved) return;
 
@@ -286,12 +303,244 @@ function handleOptionClick(item, cardEl) {
   }
 }
 
+/* ================= MODE 4: TARIK BENANG ================= */
+
+/** Menghitung posisi titik jangkar relatif terhadap matchBoard. */
+function getAnchorPoint(el) {
+  const boardRect = matchBoard.getBoundingClientRect();
+  const anchor = el.querySelector('.match-anchor') || el;
+  const rect = anchor.getBoundingClientRect();
+  return {
+    x: rect.left + rect.width / 2 - boardRect.left,
+    y: rect.top + rect.height / 2 - boardRect.top
+  };
+}
+
+/** Menggambar garis lengkung SVG antara dua titik. */
+function createCurvePath(p1, p2, color, isDashed) {
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  const dx = Math.abs(p2.x - p1.x) * 0.45;
+  const d = `M ${p1.x} ${p1.y} C ${p1.x + dx} ${p1.y}, ${p2.x - dx} ${p2.y}, ${p2.x} ${p2.y}`;
+  path.setAttribute('d', d);
+  path.setAttribute('fill', 'none');
+  path.setAttribute('stroke', color);
+  path.setAttribute('stroke-width', isDashed ? '5' : '6');
+  path.setAttribute('stroke-linecap', 'round');
+  if (isDashed) {
+    path.setAttribute('stroke-dasharray', '10 8');
+  }
+  return path;
+}
+
+/** Menggambar ulang semua benang yang sudah terhubung + benang aktif saat ditarik. */
+function renderMatchLines(liveEndPt = null) {
+  matchLinesSvg.innerHTML = '';
+
+  matchState.connectedPairs.forEach(({ animalId, foodId }) => {
+    const leftEl = matchLeftCol.querySelector(`[data-animal-id="${animalId}"]`);
+    const rightEl = matchRightCol.querySelector(`[data-food-id="${foodId}"]`);
+    if (leftEl && rightEl) {
+      matchLinesSvg.appendChild(createCurvePath(getAnchorPoint(leftEl), getAnchorPoint(rightEl), '#2E7D32', false));
+    }
+  });
+
+  if (matchState.draggingAnimalId && matchState.dragStartPt && liveEndPt) {
+    matchLinesSvg.appendChild(createCurvePath(matchState.dragStartPt, liveEndPt, '#E65100', true));
+  }
+}
+
+/** Mengecek apakah pasangan hewan dan makanan cocok. */
+function attemptMatchConnection(animalId, foodId) {
+  const animal = ANIMALS.find((a) => a.id === animalId);
+  const food = FOOD_ITEMS.find((f) => f.id === foodId);
+  const leftEl = matchLeftCol.querySelector(`[data-animal-id="${animalId}"]`);
+  const rightEl = matchRightCol.querySelector(`[data-food-id="${foodId}"]`);
+  if (!animal || !food || !leftEl || !rightEl) return;
+
+  if (leftEl.disabled || rightEl.disabled) return;
+
+  matchState.selectedAnimalId = null;
+  matchLeftCol.querySelectorAll('.match-item').forEach((el) => el.classList.remove('is-selected'));
+
+  if (animal.favoriteId === food.id) {
+    playSuccessSound();
+    score += 1;
+    scoreValueEl.textContent = String(score);
+
+    leftEl.disabled = true;
+    rightEl.disabled = true;
+    leftEl.classList.add('is-matched');
+    rightEl.classList.add('is-matched');
+    leftEl.appendChild(createCheckBadge());
+    rightEl.appendChild(createCheckBadge());
+
+    matchState.connectedPairs.push({ animalId: animal.id, foodId: food.id });
+    renderMatchLines();
+
+    if (matchState.connectedPairs.length === OPTION_COUNT) {
+      roundSolved = true;
+      feedbackBanner.className = 'feedback-banner is-success';
+      feedbackText.textContent = 'Hebat! Semua benang berhasil terhubung dengan benar!';
+      nextRoundBtn.hidden = false;
+    } else {
+      feedbackBanner.className = 'feedback-banner is-success';
+      feedbackText.textContent = `Benar! ${animal.name} suka ${food.name}. Lanjutkan pasangan lainnya!`;
+    }
+  } else {
+    playTryAgainSound();
+    rightEl.classList.remove('is-wrong');
+    void rightEl.offsetWidth;
+    rightEl.classList.add('is-wrong');
+
+    feedbackBanner.className = 'feedback-banner is-try-again';
+    feedbackText.textContent = `Ups, ${animal.name} tidak makan ${food.name}. Benang tidak terhubung, coba lagi ya!`;
+  }
+}
+
+/** Membuat satu kartu item untuk papan Tarik Benang. */
+function createMatchCard(item, side) {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = `match-item ${side === 'left' ? 'is-left' : 'is-right'}`;
+  btn.setAttribute('aria-label', side === 'left' ? `Hewan ${item.name}` : `Makanan ${item.name}`);
+
+  if (side === 'left') {
+    btn.dataset.animalId = item.id;
+  } else {
+    btn.dataset.foodId = item.id;
+  }
+
+  const img = document.createElement('img');
+  img.className = 'match-thumb';
+  img.src = item.image;
+  img.alt = `Gambar ${item.name}`;
+  img.width = 60;
+  img.height = 60;
+  img.draggable = false;
+
+  const label = document.createElement('span');
+  label.className = 'match-name';
+  label.textContent = item.name;
+
+  const anchor = document.createElement('span');
+  anchor.className = 'match-anchor';
+  anchor.setAttribute('aria-hidden', 'true');
+
+  btn.appendChild(img);
+  btn.appendChild(label);
+  btn.appendChild(anchor);
+  return btn;
+}
+
+/** Merender ronde baru untuk mode Tarik Benang (3 hewan + 3 makanan teracak). */
+function startMatchRound() {
+  matchState = {
+    selectedAnimalId: null,
+    draggingAnimalId: null,
+    dragStartPt: null,
+    connectedPairs: [],
+    pointerMoved: false
+  };
+
+  const chosenAnimals = shuffleArray(ANIMALS).slice(0, OPTION_COUNT);
+  const targetFoods = chosenAnimals.map((a) => FOOD_ITEMS.find((f) => f.id === a.favoriteId));
+
+  // Acak urutan makanan dan pastikan tidak sejajar persis semuanya
+  let mixedFoods = shuffleArray(targetFoods);
+  const allAligned = chosenAnimals.every((a, idx) => a.favoriteId === mixedFoods[idx].id);
+  if (allAligned && mixedFoods.length > 1) {
+    [mixedFoods[0], mixedFoods[1]] = [mixedFoods[1], mixedFoods[0]];
+  }
+
+  matchLeftCol.innerHTML = '';
+  matchRightCol.innerHTML = '';
+  matchLinesSvg.innerHTML = '';
+
+  chosenAnimals.forEach((animal) => {
+    const card = createMatchCard(animal, 'left');
+    card.addEventListener('pointerdown', (e) => {
+      if (card.disabled || roundSolved) return;
+      matchState.draggingAnimalId = animal.id;
+      matchState.dragStartPt = getAnchorPoint(card);
+      matchState.pointerMoved = false;
+      card.setPointerCapture(e.pointerId);
+    });
+    card.addEventListener('pointermove', (e) => {
+      if (matchState.draggingAnimalId !== animal.id) return;
+      matchState.pointerMoved = true;
+      const boardRect = matchBoard.getBoundingClientRect();
+      renderMatchLines({
+        x: e.clientX - boardRect.left,
+        y: e.clientY - boardRect.top
+      });
+    });
+    card.addEventListener('pointerup', (e) => {
+      if (matchState.draggingAnimalId !== animal.id) return;
+      const moved = matchState.pointerMoved;
+      matchState.draggingAnimalId = null;
+      matchState.dragStartPt = null;
+      renderMatchLines();
+
+      if (moved) {
+        const dropTarget = document.elementFromPoint(e.clientX, e.clientY);
+        const foodCard = dropTarget ? dropTarget.closest('.match-item.is-right') : null;
+        if (foodCard && foodCard.dataset.foodId) {
+          attemptMatchConnection(animal.id, foodCard.dataset.foodId);
+          return;
+        }
+      }
+
+      // Mode ketuk/keyboard: pilih hewan ini
+      matchState.selectedAnimalId = animal.id;
+      matchLeftCol.querySelectorAll('.match-item').forEach((el) => {
+        el.classList.toggle('is-selected', el === card);
+      });
+      feedbackBanner.className = 'feedback-banner';
+      feedbackText.textContent = `Sekarang ketuk makanan kesukaan ${animal.name}!`;
+    });
+    card.addEventListener('pointercancel', () => {
+      matchState.draggingAnimalId = null;
+      matchState.dragStartPt = null;
+      renderMatchLines();
+    });
+    matchLeftCol.appendChild(card);
+  });
+
+  mixedFoods.forEach((food) => {
+    const card = createMatchCard(food, 'right');
+    card.addEventListener('click', () => {
+      if (card.disabled || roundSolved) return;
+      if (matchState.selectedAnimalId) {
+        attemptMatchConnection(matchState.selectedAnimalId, food.id);
+      } else {
+        feedbackBanner.className = 'feedback-banner';
+        feedbackText.textContent = 'Pilih atau tarik benang dari gambar hewan di sebelah kiri dulu ya!';
+      }
+    });
+    matchRightCol.appendChild(card);
+  });
+}
+
+/* ================= ORCHESTRATION ================= */
+
 /** Merender ronde baru sesuai mode permainan yang aktif. */
 function startRound() {
   roundSolved = false;
   optionsGrid.innerHTML = '';
   feedbackBanner.className = 'feedback-banner';
   nextRoundBtn.hidden = true;
+
+  const isMatchMode = currentMode === 'match';
+  animalCardEl.hidden = isMatchMode;
+  singleOptionsArea.hidden = isMatchMode;
+  matchStage.hidden = !isMatchMode;
+
+  if (isMatchMode) {
+    questionHeading.textContent = 'Tarik benang dari hewan ke makanannya!';
+    feedbackText.textContent = 'Tarik garis (atau ketuk hewan lalu makanannya) untuk menghubungkan!';
+    startMatchRound();
+    return;
+  }
 
   if (currentMode === 'animals') {
     currentPrompt = pickNextFromDeck('animals', ANIMALS);
@@ -383,6 +632,12 @@ soundToggleBtn.addEventListener('click', () => {
 
 Object.entries(modeButtons).forEach(([modeKey, btn]) => {
   btn.addEventListener('click', () => switchMode(modeKey));
+});
+
+window.addEventListener('resize', () => {
+  if (currentMode === 'match') {
+    renderMatchLines();
+  }
 });
 
 shuffleBtn.addEventListener('click', startRound);
