@@ -81,6 +81,38 @@ button:focus-visible {
   font-size: 1.25rem;
 }
 
+.game-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-plate);
+  border: 2.5px solid var(--border-warm);
+  border-radius: var(--radius-btn);
+  padding: 4px;
+}
+
+.mode-btn {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.mode-btn:hover:not(.is-active) {
+  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.mode-btn.is-active {
+  background: var(--green-correct);
+  color: #FFFFFF;
+}
+
 .top-actions {
   display: flex;
   align-items: center;
@@ -278,6 +310,30 @@ button:focus-visible {
   font-weight: 700;
   color: var(--text-dark);
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Text-only Option Card (untuk game Kendaraan Berat) */
+.option-card.is-text-only {
+  min-height: 96px;
+  justify-content: center;
+  padding: 16px 14px;
+}
+
+.option-card.is-text-only .option-label {
+  background: transparent;
+  border-top: none;
+  padding: 0;
+  font-size: clamp(1.2rem, 2.8vw, 1.5rem);
+}
+
+.option-card.is-text-only.is-correct .option-label {
+  background: transparent;
+  color: #1B5E20;
+}
+
+.option-card.is-text-only.is-wrong .option-label {
+  background: transparent;
+  color: #7F0000;
 }
 
 /* Correct State */

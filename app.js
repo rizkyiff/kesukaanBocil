@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Daftar 10 hewan beserta makanan kesukaannya masing-masing.
+ * Game 1: Daftar 10 hewan beserta makanan kesukaannya masing-masing.
  */
 const ANIMALS = [
   { id: 'kelinci', name: 'Kelinci', image: 'imgReference/bunny.jpg', favoriteId: 'wortel' },
@@ -36,6 +36,22 @@ const FOOD_ITEMS = [
   { id: 'kacang', name: 'Kacang', image: 'imgReference/kacang.svg' }
 ];
 
+/**
+ * Game 2: Daftar 10 kendaraan berat dalam bahasa Indonesia.
+ */
+const VEHICLES = [
+  { id: 'ekskavator', name: 'Ekskavator', image: 'imgReference/kendaraan/ekskavator.svg' },
+  { id: 'truk-dump', name: 'Truk Dump', image: 'imgReference/kendaraan/truk-dump.svg' },
+  { id: 'truk-crane', name: 'Truk Crane', image: 'imgReference/kendaraan/truk-crane.svg' },
+  { id: 'crane', name: 'Crane', image: 'imgReference/kendaraan/crane.svg' },
+  { id: 'buldoser', name: 'Buldoser', image: 'imgReference/kendaraan/buldoser.svg' },
+  { id: 'truk-molen', name: 'Truk Molen', image: 'imgReference/kendaraan/truk-molen.svg' },
+  { id: 'mesin-gilas', name: 'Mesin Gilas', image: 'imgReference/kendaraan/mesin-gilas.svg' },
+  { id: 'forklift', name: 'Forklift', image: 'imgReference/kendaraan/forklift.svg' },
+  { id: 'traktor', name: 'Traktor', image: 'imgReference/kendaraan/traktor.svg' },
+  { id: 'loader', name: 'Loader', image: 'imgReference/kendaraan/loader.svg' }
+];
+
 const OPTION_COUNT = 3;
 
 const questionHeading = document.getElementById('question-heading');
@@ -49,14 +65,18 @@ const shuffleBtn = document.getElementById('shuffle-btn');
 const soundToggleBtn = document.getElementById('sound-toggle');
 const soundLabel = document.getElementById('sound-label');
 const scoreValueEl = document.getElementById('score-value');
+const modeAnimalsBtn = document.getElementById('mode-animals-btn');
+const modeVehiclesBtn = document.getElementById('mode-vehicles-btn');
 
+let currentMode = 'animals'; // 'animals' | 'vehicles'
 let soundEnabled = true;
 let score = 0;
 let roundSolved = false;
 let lastTargetIndex = -1;
-let lastAnimalId = null;
-let animalDeck = [];
-let currentAnimal = ANIMALS[0];
+let lastPromptId = { animals: null, vehicles: null };
+let decks = { animals: [], vehicles: [] };
+let currentPrompt = ANIMALS[0];
+let currentTargetId = 'wortel';
 let audioCtx = null;
 
 /** Mengambil atau membuat AudioContext saat ada interaksi pengguna. */
@@ -79,7 +99,7 @@ function playSuccessSound() {
   const ctx = getAudioContext();
   if (!ctx) return;
 
-  const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
+  const notes = [523.25, 659.25, 783.99, 1046.5];
   const now = ctx.currentTime;
 
   notes.forEach((freq, idx) => {
@@ -132,29 +152,31 @@ function shuffleArray(list) {
   return arr;
 }
 
-/** Mengambil hewan berikutnya dari dek acak tanpa mengulang hewan sebelumnya berturut-turut. */
-function pickNextAnimal() {
-  if (animalDeck.length === 0) {
-    animalDeck = shuffleArray(ANIMALS);
-    if (lastAnimalId && animalDeck[0].id === lastAnimalId && animalDeck.length > 1) {
-      [animalDeck[0], animalDeck[animalDeck.length - 1]] = [animalDeck[animalDeck.length - 1], animalDeck[0]];
+/** Mengambil item berikutnya dari dek acak agar tidak mengulang item sebelumnya berturut-turut. */
+function pickNextFromDeck(modeKey, sourceList) {
+  if (decks[modeKey].length === 0) {
+    decks[modeKey] = shuffleArray(sourceList);
+    const prevId = lastPromptId[modeKey];
+    if (prevId && decks[modeKey][0].id === prevId && decks[modeKey].length > 1) {
+      const lastIdx = decks[modeKey].length - 1;
+      [decks[modeKey][0], decks[modeKey][lastIdx]] = [decks[modeKey][lastIdx], decks[modeKey][0]];
     }
   }
-  const chosen = animalDeck.shift();
-  lastAnimalId = chosen.id;
+  const chosen = decks[modeKey].shift();
+  lastPromptId[modeKey] = chosen.id;
   return chosen;
 }
 
 /**
- * Memilih 3 opsi: 1 makanan kesukaan hewan aktif + 2 pengecoh acak,
+ * Memilih 3 opsi: 1 jawaban benar + 2 pengecoh acak,
  * serta memastikan posisi jawaban benar berpindah dibanding ronde sebelumnya.
  */
-function pickRoundOptions(favoriteId) {
-  const target = FOOD_ITEMS.find((item) => item.id === favoriteId);
-  const distractors = shuffleArray(FOOD_ITEMS.filter((item) => item.id !== favoriteId)).slice(0, OPTION_COUNT - 1);
+function pickRoundOptions(pool, targetId) {
+  const target = pool.find((item) => item.id === targetId);
+  const distractors = shuffleArray(pool.filter((item) => item.id !== targetId)).slice(0, OPTION_COUNT - 1);
 
   const combined = shuffleArray([target, ...distractors]);
-  let targetIndex = combined.findIndex((item) => item.id === favoriteId);
+  let targetIndex = combined.findIndex((item) => item.id === targetId);
 
   if (lastTargetIndex !== -1 && targetIndex === lastTargetIndex) {
     const otherIndices = [0, 1, 2].filter((idx) => idx !== lastTargetIndex);
@@ -180,11 +202,11 @@ function createCheckBadge() {
   return badge;
 }
 
-/** Menangani klik pada salah satu kartu opsi makanan. */
+/** Menangani klik pada salah satu kartu opsi. */
 function handleOptionClick(item, cardEl) {
   if (roundSolved) return;
 
-  if (item.id === currentAnimal.favoriteId) {
+  if (item.id === currentTargetId) {
     roundSolved = true;
     score += 1;
     scoreValueEl.textContent = String(score);
@@ -202,8 +224,15 @@ function handleOptionClick(item, cardEl) {
       }
     });
 
+    if (currentMode === 'vehicles') {
+      animalNameEl.textContent = item.name;
+      animalNameEl.hidden = false;
+      feedbackText.textContent = `Hore! Benar, ini ${item.name}!`;
+    } else {
+      feedbackText.textContent = `Hore! Benar, ${currentPrompt.name} suka ${item.name}!`;
+    }
+
     feedbackBanner.className = 'feedback-banner is-success';
-    feedbackText.textContent = `Hore! Benar, ${currentAnimal.name} suka ${item.name}!`;
     nextRoundBtn.hidden = false;
   } else {
     playTryAgainSound();
@@ -212,52 +241,99 @@ function handleOptionClick(item, cardEl) {
     cardEl.classList.add('is-wrong');
 
     feedbackBanner.className = 'feedback-banner is-try-again';
-    feedbackText.textContent = `Ups, itu ${item.name}. Coba pilih makanan kesukaan ${currentAnimal.name} ya!`;
+    if (currentMode === 'vehicles') {
+      feedbackText.textContent = `Ups, bukan ${item.name}. Coba pilih nama kendaraan yang tepat ya!`;
+    } else {
+      feedbackText.textContent = `Ups, itu ${item.name}. Coba pilih makanan kesukaan ${currentPrompt.name} ya!`;
+    }
   }
 }
 
-/** Merender hewan dan 3 kartu opsi baru untuk ronde saat ini. */
+/** Merender ronde baru sesuai mode permainan yang aktif. */
 function startRound() {
   roundSolved = false;
-  currentAnimal = pickNextAnimal();
-  const roundItems = pickRoundOptions(currentAnimal.favoriteId);
-
-  questionHeading.textContent = `${currentAnimal.name} suka makan apa ya?`;
-  animalImg.src = currentAnimal.image;
-  animalImg.alt = `Gambar ${currentAnimal.name} yang lucu`;
-  animalNameEl.textContent = currentAnimal.name;
-
   optionsGrid.innerHTML = '';
   feedbackBanner.className = 'feedback-banner';
-  feedbackText.textContent = `Ketuk gambar makanan yang disukai ${currentAnimal.name}!`;
   nextRoundBtn.hidden = true;
 
-  roundItems.forEach((item) => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'option-card';
-    btn.setAttribute('aria-label', `Pilih ${item.name}`);
+  if (currentMode === 'animals') {
+    currentPrompt = pickNextFromDeck('animals', ANIMALS);
+    currentTargetId = currentPrompt.favoriteId;
 
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'option-image-wrap';
+    questionHeading.textContent = `${currentPrompt.name} suka makan apa ya?`;
+    animalImg.src = currentPrompt.image;
+    animalImg.alt = `Gambar ${currentPrompt.name} yang lucu`;
+    animalNameEl.textContent = currentPrompt.name;
+    animalNameEl.hidden = false;
+    feedbackText.textContent = `Ketuk gambar makanan yang disukai ${currentPrompt.name}!`;
 
-    const img = document.createElement('img');
-    img.src = item.image;
-    img.alt = `Gambar ${item.name}`;
-    img.width = 240;
-    img.height = 240;
+    const roundItems = pickRoundOptions(FOOD_ITEMS, currentTargetId);
+    roundItems.forEach((item) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-card';
+      btn.setAttribute('aria-label', `Pilih ${item.name}`);
 
-    const label = document.createElement('span');
-    label.className = 'option-label';
-    label.textContent = item.name;
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'option-image-wrap';
 
-    imgWrap.appendChild(img);
-    btn.appendChild(imgWrap);
-    btn.appendChild(label);
+      const img = document.createElement('img');
+      img.src = item.image;
+      img.alt = `Gambar ${item.name}`;
+      img.width = 240;
+      img.height = 240;
 
-    btn.addEventListener('click', () => handleOptionClick(item, btn));
-    optionsGrid.appendChild(btn);
-  });
+      const label = document.createElement('span');
+      label.className = 'option-label';
+      label.textContent = item.name;
+
+      imgWrap.appendChild(img);
+      btn.appendChild(imgWrap);
+      btn.appendChild(label);
+      btn.addEventListener('click', () => handleOptionClick(item, btn));
+      optionsGrid.appendChild(btn);
+    });
+  } else {
+    currentPrompt = pickNextFromDeck('vehicles', VEHICLES);
+    currentTargetId = currentPrompt.id;
+
+    questionHeading.textContent = 'Apa nama kendaraan berat ini?';
+    animalImg.src = currentPrompt.image;
+    animalImg.alt = 'Gambar kendaraan berat untuk ditebak namanya';
+    animalNameEl.textContent = '';
+    animalNameEl.hidden = true;
+    feedbackText.textContent = 'Ketuk nama kendaraan berat yang sesuai gambar!';
+
+    const roundItems = pickRoundOptions(VEHICLES, currentTargetId);
+    roundItems.forEach((item) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-card is-text-only';
+      btn.setAttribute('aria-label', `Pilih ${item.name}`);
+
+      const label = document.createElement('span');
+      label.className = 'option-label';
+      label.textContent = item.name;
+
+      btn.appendChild(label);
+      btn.addEventListener('click', () => handleOptionClick(item, btn));
+      optionsGrid.appendChild(btn);
+    });
+  }
+}
+
+/** Mengganti mode permainan dan langsung memulai ronde baru. */
+function switchMode(newMode) {
+  if (currentMode === newMode) return;
+  currentMode = newMode;
+
+  const isAnimals = newMode === 'animals';
+  modeAnimalsBtn.classList.toggle('is-active', isAnimals);
+  modeAnimalsBtn.setAttribute('aria-pressed', String(isAnimals));
+  modeVehiclesBtn.classList.toggle('is-active', !isAnimals);
+  modeVehiclesBtn.setAttribute('aria-pressed', String(!isAnimals));
+
+  startRound();
 }
 
 soundToggleBtn.addEventListener('click', () => {
@@ -267,6 +343,8 @@ soundToggleBtn.addEventListener('click', () => {
   soundLabel.textContent = soundEnabled ? 'Suara Aktif' : 'Suara Mati';
 });
 
+modeAnimalsBtn.addEventListener('click', () => switchMode('animals'));
+modeVehiclesBtn.addEventListener('click', () => switchMode('vehicles'));
 shuffleBtn.addEventListener('click', startRound);
 nextRoundBtn.addEventListener('click', startRound);
 

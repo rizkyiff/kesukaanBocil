@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="240" rx="200" ry="18" fill="#E5D5BA"/>
+  <!-- Loader Arm -->
+  <path d="M224 148 L328 158" stroke="#475569" stroke-width="18" stroke-linecap="round"/>
+  <!-- Big Scoop Bucket -->
+  <path d="M324 128 L384 156 L372 204 L318 192 Z" fill="#64748B" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Cab -->
+  <rect x="148" y="80" width="84" height="74" rx="10" fill="#FBBF24" stroke="#1E1814" stroke-width="4"/>
+  <rect x="164" y="92" width="54" height="42" rx="6" fill="#BAE6FD" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Rear Engine -->
+  <rect x="96" y="118" width="76" height="58" rx="8" fill="#F59E0B" stroke="#1E1814" stroke-width="4"/>
+  <!-- Big Wheels -->
+  <circle cx="148" cy="196" r="34" fill="#1E293B" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="148" cy="196" r="15" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="268" cy="196" r="34" fill="#1E293B" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="268" cy="196" r="15" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+</svg>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tebak Makanan Hewan - Permainan Edukasi Anak</title>
+  <title>Permainan Edukasi Anak - Hewan &amp; Kendaraan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
@@ -15,6 +15,16 @@
       <span class="score-label">Bintang:</span>
       <span id="score-value" class="score-value">0</span>
     </div>
+
+    <nav class="game-switcher" aria-label="Pilih permainan">
+      <button type="button" id="mode-animals-btn" class="mode-btn is-active" aria-pressed="true">
+        Makanan Hewan
+      </button>
+      <button type="button" id="mode-vehicles-btn" class="mode-btn" aria-pressed="false">
+        Kendaraan Berat
+      </button>
+    </nav>
+
     <div class="top-actions">
       <button type="button" id="sound-toggle" class="icon-btn" aria-pressed="true" aria-label="Matikan suara">
         <svg class="btn-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

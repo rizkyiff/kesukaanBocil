@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <!-- Ground -->
+  <ellipse cx="240" cy="240" rx="200" ry="18" fill="#E5D5BA"/>
+  <!-- Boom & Stick -->
+  <path d="M210 142 L292 60 L356 128" fill="none" stroke="#F59E0B" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M210 142 L292 60 L356 128" fill="none" stroke="#1E1814" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bucket -->
+  <path d="M342 128 L382 124 L392 162 Q368 176 346 154 Z" fill="#64748B" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Cabin -->
+  <rect x="122" y="96" width="84" height="72" rx="12" fill="#FBBF24" stroke="#1E1814" stroke-width="4"/>
+  <rect x="148" y="108" width="46" height="36" rx="6" fill="#BAE6FD" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Engine body -->
+  <rect x="78" y="128" width="60" height="44" rx="8" fill="#F59E0B" stroke="#1E1814" stroke-width="4"/>
+  <!-- Tracks -->
+  <rect x="78" y="176" width="152" height="44" rx="22" fill="#334155" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="104" cy="198" r="13" fill="#94A3B8" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="154" cy="198" r="13" fill="#94A3B8" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="204" cy="198" r="13" fill="#94A3B8" stroke="#1E1814" stroke-width="3"/>
+</svg>

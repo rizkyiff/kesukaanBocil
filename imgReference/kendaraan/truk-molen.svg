@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="240" rx="200" ry="18" fill="#E5D5BA"/>
+  <!-- Mixer Drum -->
+  <g transform="rotate(-14 184 128)">
+    <ellipse cx="184" cy="128" rx="92" ry="52" fill="#FFFFFF" stroke="#1E1814" stroke-width="4"/>
+    <path d="M116 94 Q152 128 116 162 M176 78 Q214 128 176 178 M234 92 Q266 128 234 164" fill="none" stroke="#EF4444" stroke-width="14" stroke-linecap="round"/>
+  </g>
+  <!-- Cab -->
+  <path d="M276 106 L342 106 L364 138 L364 184 L276 184 Z" fill="#0284C7" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <polygon points="290,116 336,116 350,138 290,138" fill="#BAE6FD" stroke="#1E1814" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Chassis -->
+  <rect x="88" y="174" width="284" height="20" rx="6" fill="#475569" stroke="#1E1814" stroke-width="4"/>
+  <!-- Wheels -->
+  <circle cx="136" cy="202" r="27" fill="#1E293B" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="136" cy="202" r="12" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="212" cy="202" r="27" fill="#1E293B" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="212" cy="202" r="12" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="328" cy="202" r="27" fill="#1E293B" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="328" cy="202" r="12" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+</svg>

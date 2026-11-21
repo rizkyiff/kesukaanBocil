@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="240" rx="200" ry="18" fill="#E5D5BA"/>
+  <!-- Push Arm -->
+  <line x1="256" y1="186" x2="326" y2="186" stroke="#475569" stroke-width="14" stroke-linecap="round"/>
+  <!-- Front Blade -->
+  <path d="M326 112 Q358 148 332 214 L314 214 Q334 152 312 112 Z" fill="#94A3B8" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Cab -->
+  <rect x="136" y="84" width="90" height="78" rx="10" fill="#FBBF24" stroke="#1E1814" stroke-width="4"/>
+  <rect x="150" y="96" width="62" height="44" rx="6" fill="#BAE6FD" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Engine Hood -->
+  <rect x="226" y="114" width="68" height="48" rx="8" fill="#F59E0B" stroke="#1E1814" stroke-width="4"/>
+  <rect x="266" y="82" width="12" height="32" rx="4" fill="#475569" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Tracks -->
+  <rect x="112" y="166" width="182" height="52" rx="26" fill="#334155" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="142" cy="192" r="15" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="203" cy="192" r="15" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+  <circle cx="264" cy="192" r="15" fill="#CBD5E1" stroke="#1E1814" stroke-width="3"/>
+</svg>
