@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="242" rx="200" ry="16" fill="#CBD5E1"/>
+  <!-- Terminal Building -->
+  <rect x="92" y="142" width="228" height="92" rx="8" fill="#E0F2FE" stroke="#1E1814" stroke-width="4"/>
+  <rect x="112" y="162" width="188" height="44" rx="4" fill="#38BDF8" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Control Tower -->
+  <rect x="330" y="102" width="36" height="132" fill="#F1F5F9" stroke="#1E1814" stroke-width="4"/>
+  <polygon points="312,68 384,68 372,104 324,104" fill="#0284C7" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="326" y="76" width="44" height="18" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <line x1="348" y1="42" x2="348" y2="68" stroke="#1E1814" stroke-width="4" stroke-linecap="round"/>
+  <!-- Airplane in Sky -->
+  <path d="M108 78 L194 78 L212 64 L222 64 L212 78 L232 78 L244 70 L250 70 L244 84 L212 86 L194 102 L180 102 L190 86 L124 86 Z" fill="#FFFFFF" stroke="#1E1814" stroke-width="3.5" stroke-linejoin="round"/>
+</svg>

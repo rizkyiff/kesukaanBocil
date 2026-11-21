@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="242" rx="200" ry="16" fill="#CBD5E1"/>
+  <!-- Store Body -->
+  <rect x="108" y="82" width="264" height="152" rx="10" fill="#FEF3C7" stroke="#1E1814" stroke-width="4"/>
+  <!-- Top Signboard -->
+  <rect x="128" y="54" width="224" height="36" rx="8" fill="#2563EB" stroke="#1E1814" stroke-width="4"/>
+  <circle cx="152" cy="72" r="9" fill="#FACC15"/>
+  <rect x="172" y="66" width="156" height="12" rx="6" fill="#FFFFFF"/>
+  <!-- Striped Awning -->
+  <polygon points="94,102 386,102 396,134 84,134" fill="#EF4444" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <rect x="132" y="102" width="34" height="32" fill="#FFFFFF" stroke="#1E1814" stroke-width="3"/>
+  <rect x="200" y="102" width="34" height="32" fill="#FFFFFF" stroke="#1E1814" stroke-width="3"/>
+  <rect x="268" y="102" width="34" height="32" fill="#FFFFFF" stroke="#1E1814" stroke-width="3"/>
+  <rect x="336" y="102" width="34" height="32" fill="#FFFFFF" stroke="#1E1814" stroke-width="3"/>
+  <!-- Glass Door & Window -->
+  <rect x="132" y="152" width="70" height="82" rx="4" fill="#7DD3FC" stroke="#1E1814" stroke-width="4"/>
+  <line x1="167" y1="152" x2="167" y2="234" stroke="#1E1814" stroke-width="3"/>
+  <rect x="224" y="152" width="124" height="58" rx="6" fill="#BAE6FD" stroke="#1E1814" stroke-width="4"/>
+</svg>

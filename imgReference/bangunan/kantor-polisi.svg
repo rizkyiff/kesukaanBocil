@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="242" rx="200" ry="16" fill="#CBD5E1"/>
+  <!-- Building -->
+  <rect x="112" y="96" width="256" height="138" rx="8" fill="#DBEAFE" stroke="#1E1814" stroke-width="4"/>
+  <!-- Roof Band -->
+  <rect x="104" y="76" width="272" height="28" rx="6" fill="#1E3A8A" stroke="#1E1814" stroke-width="4"/>
+  <!-- Siren Lights -->
+  <rect x="210" y="54" width="28" height="22" rx="6" fill="#EF4444" stroke="#1E1814" stroke-width="3.5"/>
+  <rect x="242" y="54" width="28" height="22" rx="6" fill="#3B82F6" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Police Star Shield -->
+  <polygon points="240,108 250,126 270,128 255,142 259,162 240,152 221,162 225,142 210,128 230,126" fill="#FACC15" stroke="#1E1814" stroke-width="3.5" stroke-linejoin="round"/>
+  <!-- Windows -->
+  <rect x="132" y="124" width="48" height="40" rx="4" fill="#93C5FD" stroke="#1E1814" stroke-width="3.5"/>
+  <rect x="300" y="124" width="48" height="40" rx="4" fill="#93C5FD" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Door -->
+  <rect x="214" y="176" width="52" height="58" rx="4" fill="#1D4ED8" stroke="#1E1814" stroke-width="4"/>
+</svg>

@@ -52,6 +52,39 @@ const VEHICLES = [
   { id: 'loader', name: 'Loader', image: 'imgReference/kendaraan/loader.svg' }
 ];
 
+/**
+ * Game 3: Daftar 10 bangunan umum dalam bahasa Indonesia.
+ */
+const BUILDINGS = [
+  { id: 'rumah-sakit', name: 'Rumah Sakit', image: 'imgReference/bangunan/rumah-sakit.svg' },
+  { id: 'pom-bensin', name: 'Pom Bensin', image: 'imgReference/bangunan/pom-bensin.svg' },
+  { id: 'mini-market', name: 'Mini Market', image: 'imgReference/bangunan/mini-market.svg' },
+  { id: 'sekolah', name: 'Sekolah', image: 'imgReference/bangunan/sekolah.svg' },
+  { id: 'kantor-polisi', name: 'Kantor Polisi', image: 'imgReference/bangunan/kantor-polisi.svg' },
+  { id: 'pemadam-kebakaran', name: 'Pemadam Kebakaran', image: 'imgReference/bangunan/pemadam-kebakaran.svg' },
+  { id: 'kantor-pos', name: 'Kantor Pos', image: 'imgReference/bangunan/kantor-pos.svg' },
+  { id: 'perpustakaan', name: 'Perpustakaan', image: 'imgReference/bangunan/perpustakaan.svg' },
+  { id: 'stasiun-kereta', name: 'Stasiun Kereta', image: 'imgReference/bangunan/stasiun-kereta.svg' },
+  { id: 'bandara', name: 'Bandara', image: 'imgReference/bangunan/bandara.svg' }
+];
+
+const TEXT_QUIZ_CONFIG = {
+  vehicles: {
+    items: VEHICLES,
+    heading: 'Apa nama kendaraan berat ini?',
+    alt: 'Gambar kendaraan berat untuk ditebak namanya',
+    prompt: 'Ketuk nama kendaraan berat yang sesuai gambar!',
+    noun: 'kendaraan'
+  },
+  buildings: {
+    items: BUILDINGS,
+    heading: 'Apa nama bangunan ini?',
+    alt: 'Gambar bangunan untuk ditebak namanya',
+    prompt: 'Ketuk nama bangunan yang sesuai gambar!',
+    noun: 'bangunan'
+  }
+};
+
 const OPTION_COUNT = 3;
 
 const questionHeading = document.getElementById('question-heading');
@@ -65,16 +98,19 @@ const shuffleBtn = document.getElementById('shuffle-btn');
 const soundToggleBtn = document.getElementById('sound-toggle');
 const soundLabel = document.getElementById('sound-label');
 const scoreValueEl = document.getElementById('score-value');
-const modeAnimalsBtn = document.getElementById('mode-animals-btn');
-const modeVehiclesBtn = document.getElementById('mode-vehicles-btn');
+const modeButtons = {
+  animals: document.getElementById('mode-animals-btn'),
+  vehicles: document.getElementById('mode-vehicles-btn'),
+  buildings: document.getElementById('mode-buildings-btn')
+};
 
-let currentMode = 'animals'; // 'animals' | 'vehicles'
+let currentMode = 'animals'; // 'animals' | 'vehicles' | 'buildings'
 let soundEnabled = true;
 let score = 0;
 let roundSolved = false;
 let lastTargetIndex = -1;
-let lastPromptId = { animals: null, vehicles: null };
-let decks = { animals: [], vehicles: [] };
+let lastPromptId = { animals: null, vehicles: null, buildings: null };
+let decks = { animals: [], vehicles: [], buildings: [] };
 let currentPrompt = ANIMALS[0];
 let currentTargetId = 'wortel';
 let audioCtx = null;
@@ -224,12 +260,12 @@ function handleOptionClick(item, cardEl) {
       }
     });
 
-    if (currentMode === 'vehicles') {
+    if (currentMode === 'animals') {
+      feedbackText.textContent = `Hore! Benar, ${currentPrompt.name} suka ${item.name}!`;
+    } else {
       animalNameEl.textContent = item.name;
       animalNameEl.hidden = false;
       feedbackText.textContent = `Hore! Benar, ini ${item.name}!`;
-    } else {
-      feedbackText.textContent = `Hore! Benar, ${currentPrompt.name} suka ${item.name}!`;
     }
 
     feedbackBanner.className = 'feedback-banner is-success';
@@ -241,10 +277,11 @@ function handleOptionClick(item, cardEl) {
     cardEl.classList.add('is-wrong');
 
     feedbackBanner.className = 'feedback-banner is-try-again';
-    if (currentMode === 'vehicles') {
-      feedbackText.textContent = `Ups, bukan ${item.name}. Coba pilih nama kendaraan yang tepat ya!`;
-    } else {
+    if (currentMode === 'animals') {
       feedbackText.textContent = `Ups, itu ${item.name}. Coba pilih makanan kesukaan ${currentPrompt.name} ya!`;
+    } else {
+      const noun = TEXT_QUIZ_CONFIG[currentMode].noun;
+      feedbackText.textContent = `Ups, bukan ${item.name}. Coba pilih nama ${noun} yang tepat ya!`;
     }
   }
 }
@@ -294,17 +331,18 @@ function startRound() {
       optionsGrid.appendChild(btn);
     });
   } else {
-    currentPrompt = pickNextFromDeck('vehicles', VEHICLES);
+    const config = TEXT_QUIZ_CONFIG[currentMode];
+    currentPrompt = pickNextFromDeck(currentMode, config.items);
     currentTargetId = currentPrompt.id;
 
-    questionHeading.textContent = 'Apa nama kendaraan berat ini?';
+    questionHeading.textContent = config.heading;
     animalImg.src = currentPrompt.image;
-    animalImg.alt = 'Gambar kendaraan berat untuk ditebak namanya';
+    animalImg.alt = config.alt;
     animalNameEl.textContent = '';
     animalNameEl.hidden = true;
-    feedbackText.textContent = 'Ketuk nama kendaraan berat yang sesuai gambar!';
+    feedbackText.textContent = config.prompt;
 
-    const roundItems = pickRoundOptions(VEHICLES, currentTargetId);
+    const roundItems = pickRoundOptions(config.items, currentTargetId);
     roundItems.forEach((item) => {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -327,11 +365,11 @@ function switchMode(newMode) {
   if (currentMode === newMode) return;
   currentMode = newMode;
 
-  const isAnimals = newMode === 'animals';
-  modeAnimalsBtn.classList.toggle('is-active', isAnimals);
-  modeAnimalsBtn.setAttribute('aria-pressed', String(isAnimals));
-  modeVehiclesBtn.classList.toggle('is-active', !isAnimals);
-  modeVehiclesBtn.setAttribute('aria-pressed', String(!isAnimals));
+  Object.entries(modeButtons).forEach(([modeKey, btn]) => {
+    const active = modeKey === newMode;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-pressed', String(active));
+  });
 
   startRound();
 }
@@ -343,8 +381,10 @@ soundToggleBtn.addEventListener('click', () => {
   soundLabel.textContent = soundEnabled ? 'Suara Aktif' : 'Suara Mati';
 });
 
-modeAnimalsBtn.addEventListener('click', () => switchMode('animals'));
-modeVehiclesBtn.addEventListener('click', () => switchMode('vehicles'));
+Object.entries(modeButtons).forEach(([modeKey, btn]) => {
+  btn.addEventListener('click', () => switchMode(modeKey));
+});
+
 shuffleBtn.addEventListener('click', startRound);
 nextRoundBtn.addEventListener('click', startRound);
 

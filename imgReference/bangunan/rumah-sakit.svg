@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="242" rx="200" ry="16" fill="#CBD5E1"/>
+  <!-- Side Wings -->
+  <rect x="86" y="108" width="84" height="126" rx="6" fill="#E2E8F0" stroke="#1E1814" stroke-width="4"/>
+  <rect x="310" y="108" width="84" height="126" rx="6" fill="#E2E8F0" stroke="#1E1814" stroke-width="4"/>
+  <!-- Main Building -->
+  <rect x="164" y="56" width="152" height="178" rx="8" fill="#FFFFFF" stroke="#1E1814" stroke-width="4"/>
+  <!-- Red Cross Sign -->
+  <rect x="212" y="68" width="56" height="56" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="3.5"/>
+  <rect x="233" y="78" width="14" height="36" rx="3" fill="#EF4444"/>
+  <rect x="222" y="89" width="36" height="14" rx="3" fill="#EF4444"/>
+  <!-- Windows -->
+  <rect x="104" y="128" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="136" y="128" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="104" y="170" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="136" y="170" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="322" y="128" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="354" y="128" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="322" y="170" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="354" y="170" width="22" height="26" rx="3" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="184" y="138" width="32" height="28" rx="4" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <rect x="264" y="138" width="32" height="28" rx="4" fill="#BAE6FD" stroke="#1E1814" stroke-width="3"/>
+  <!-- Entrance -->
+  <rect x="214" y="182" width="52" height="52" rx="4" fill="#38BDF8" stroke="#1E1814" stroke-width="3.5"/>
+  <line x1="240" y1="182" x2="240" y2="234" stroke="#1E1814" stroke-width="3"/>
+</svg>

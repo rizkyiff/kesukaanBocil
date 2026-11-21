@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" width="480" height="270">
+  <rect width="480" height="270" fill="#FFFFFF"/>
+  <ellipse cx="240" cy="242" rx="200" ry="16" fill="#CBD5E1"/>
+  <!-- Steps -->
+  <rect x="96" y="218" width="288" height="16" rx="3" fill="#94A3B8" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Building -->
+  <rect x="114" y="104" width="252" height="114" fill="#FEF3C7" stroke="#1E1814" stroke-width="4"/>
+  <!-- Columns -->
+  <rect x="128" y="108" width="22" height="110" fill="#FFFFFF" stroke="#1E1814" stroke-width="3.5"/>
+  <rect x="184" y="108" width="22" height="110" fill="#FFFFFF" stroke="#1E1814" stroke-width="3.5"/>
+  <rect x="274" y="108" width="22" height="110" fill="#FFFFFF" stroke="#1E1814" stroke-width="3.5"/>
+  <rect x="330" y="108" width="22" height="110" fill="#FFFFFF" stroke="#1E1814" stroke-width="3.5"/>
+  <!-- Pediment Roof -->
+  <polygon points="94,104 240,48 386,104" fill="#0D9488" stroke="#1E1814" stroke-width="4" stroke-linejoin="round"/>
+  <!-- Open Book Icon -->
+  <path d="M214 78 Q227 72 240 82 Q253 72 266 78 L266 96 Q253 90 240 98 Q227 90 214 96 Z" fill="#FFFFFF" stroke="#1E1814" stroke-width="3"/>
+  <!-- Door -->
+  <rect x="220" y="152" width="40" height="66" rx="4" fill="#78350F" stroke="#1E1814" stroke-width="4"/>
+</svg>
